@@ -30,16 +30,39 @@ def predict_sales():
 
     # Create one sample with the features expected by the model
     sample = {
+        @superkart_api.post("/v1/predict")
+def predict_sales():
+
+    # Get JSON data from request
+    data = request.get_json()
+
+    # Create one sample with the features expected by the model
+    sample = {
+        "Product_Id": data["Product_Id"],
         "Product_Weight": data["Product_Weight"],
         "Product_Sugar_Content": data["Product_Sugar_Content"],
         "Product_Allocated_Area": data["Product_Allocated_Area"],
+        "Product_Type": data["Product_Type"],
         "Product_MRP": data["Product_MRP"],
         "Store_Size": data["Store_Size"],
         "Store_Location_City_Type": data["Store_Location_City_Type"],
         "Store_Type": data["Store_Type"],
-        "Product_Id_char": data["Product_Id_char"],
         "Store_Age_Years": data["Store_Age_Years"],
-        "Product_Type_Category": data["Product_Type_Category"]
+        "Product_Id_char": data["Product_Id_char"]
+    }
+
+    # Convert the single record into a DataFrame
+    input_data = pd.DataFrame([sample])
+
+    # Predict sales
+    prediction = model.predict(input_data)[0]
+
+    # Return prediction
+    return jsonify({
+        "Sales": round(float(prediction), 2)
+    })
+
+
     }
 
     # Convert the single record into a DataFrame
