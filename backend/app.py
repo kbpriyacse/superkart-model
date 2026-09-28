@@ -22,15 +22,8 @@ def home():
 # ---------------------------------------------------------
 # Single prediction endpoint
 # ---------------------------------------------------------
+
 @superkart_api.post("/v1/predict")
-def predict_sales():
-
-    # Get JSON data from request
-    data = request.get_json()
-
-    # Create one sample with the features expected by the model
-    sample = {
-        @superkart_api.post("/v1/predict")
 def predict_sales():
 
     # Get JSON data from request
@@ -51,21 +44,7 @@ def predict_sales():
         "Product_Id_char": data["Product_Id_char"]
     }
 
-    # Convert the single record into a DataFrame
-    input_data = pd.DataFrame([sample])
-
-    # Predict sales
-    prediction = model.predict(input_data)[0]
-
-    # Return prediction
-    return jsonify({
-        "Sales": round(float(prediction), 2)
-    })
-
-
-    }
-
-    # Convert the single record into a DataFrame
+    # Convert to DataFrame
     input_data = pd.DataFrame([sample])
 
     # Predict sales
